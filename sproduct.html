@@ -9,6 +9,7 @@
 
 </head>
 <body>
+    <div id="toast"></div>
 
     <section id="header">
          <a href="#"> <img src="img/logo.png"  class="logo" alt=""></a>
@@ -24,10 +25,10 @@
             </ul>
          </div>
          <div id="mobile">
-            <i class="fa-brands fa-shopify"></i>
+            <a href="cart.html"><i class="fa-brands fa-shopify"></i></a>
             <i id="bar" class="fas fa-outdent"></i>
-            
-         </div>
+        </div>
+        
     </section>
     
    <section id="pro-details" class="section-p1">
@@ -54,8 +55,8 @@
 
             </div>
         </div>
-                <div class="single-pro-details">
-                    <h6> Home /T-Shirts </h6>
+                <div class="single-pro-details"  >
+    
                     <h4>Mens Fashion T Shirt</h4>
                     <h2>$139</h2>
                     <select >
@@ -67,7 +68,8 @@
                         <option>Medium</option>
                     </select>
                     <input type="number"  value="1">
-                    <button class="normal">Add To Cart</button>
+                    <button class="normal" onclick="addToCart()">Add To Cart</button>
+
                     <h4>Product Details</h4>
                     <span>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aliquam repellat eius rem inventore? Vero placeat explicabo iusto est, nam eum recusandae eos dicta quaerat similique quo, blanditiis a harum nisi nesciunt consectetur qui laborum animi tenetur eveniet consequuntur, odio fugiat? Error sapiente distinctio, culpa quibusdam enim et esse non.
@@ -248,8 +250,50 @@ smalimg[2].onclick=function(){
 
 smalimg[3].onclick=function(){
     Mainimg.src= smalimg[3].src;
+
 }
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "show";
+
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000); // Toast visible for 3 seconds
+}
+
+function addToCart() {
+    const mainImg = document.getElementById('main-img');
+    const imageSrc = mainImg.src;
+
+    const imageName = imageSrc.substring(imageSrc.lastIndexOf("/") + 1);
+
+    const product = {
+        id: imageName,
+        name: "Mens Fashion T Shirt",
+        price: 139,
+        image: imageSrc
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const exists = cart.find(item => item.id === product.id);
+
+    if (!exists) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showToast("Item added to cart!");
+    } else {
+        showToast("This shirt is already in your cart.");
+    }
+}
+
+
    </script>
 </body>
-<script src="index.js"></script>
+<script src="index.js">
+  
+
+</script>
+
 </html>
